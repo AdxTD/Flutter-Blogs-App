@@ -38,6 +38,7 @@ dependencies:
   fpdart: ^1.1.0
   supabase_flutter: ^2.3.4
   internet_connection_checker_plus: ^2.2.0
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:
