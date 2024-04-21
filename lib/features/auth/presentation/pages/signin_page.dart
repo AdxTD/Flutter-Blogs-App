@@ -48,7 +48,10 @@ class _SignInPage extends State<SignInPage> {
                 isPassword: true,
               ),
               const SizedBox(height: 20),
-              const AuthGradientButton(btnText: 'Login'),
+              AuthGradientButton(
+                btnText: 'Login',
+                pressed: () {},
+              ),
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () => {Navigator.push(context, SignUpPage.route())},
