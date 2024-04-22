@@ -1,7 +1,9 @@
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/network/connection_checker.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_login.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_signup.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -13,15 +15,21 @@ import 'core/secrets/app_secrets.dart';
 final serviceLocator = GetIt.asNewInstance();
 
 Future<void> initDependencies() async {
+  _initAuth();
+  final supabase = await Supabase.initialize(
+      url: AppSecrets.supabaseUrl, anonKey: AppSecrets.supabaseAnonKey);
+  serviceLocator.registerLazySingleton(() => supabase.client);
+
+  // core
+  serviceLocator.registerLazySingleton(
+    () => AppUserCubit(),
+  );
+
   serviceLocator.registerFactory<ConnectionChecker>(
     () => ConnectionCheckerImpl(
       InternetConnection.createInstance(),
     ),
   );
-  _initAuth();
-  final supabase = await Supabase.initialize(
-      url: AppSecrets.supabaseUrl, anonKey: AppSecrets.supabaseAnonKey);
-  serviceLocator.registerLazySingleton(() => supabase.client);
 }
 
 void _initAuth() {
@@ -50,8 +58,18 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => CurrentUser(
+        serviceLocator(),
+      ),
+    )
     // bloc
     ..registerLazySingleton(
-      () => AuthBloc(userSignUp: serviceLocator(), userLogin: serviceLocator()),
+      () => AuthBloc(
+        userSignUp: serviceLocator(),
+        userLogin: serviceLocator(),
+        currentUser: serviceLocator(),
+        appUserCubit: serviceLocator(),
+      ),
     );
 }
