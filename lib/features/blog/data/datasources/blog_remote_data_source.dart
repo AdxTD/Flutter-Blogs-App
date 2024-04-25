@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:blog_app/core/error/exceptions.dart';
@@ -17,9 +16,7 @@ abstract interface class BlogRemoteDataSource {
 class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   final SupabaseClient supabaseClient;
 
-  BlogRemoteDataSourceImpl({
-    required this.supabaseClient,
-  });
+  BlogRemoteDataSourceImpl(this.supabaseClient);
 
   @override
   Future<BlogModel> uploadBlog(BlogModel blogModel) async {
