@@ -32,9 +32,11 @@ Future<void> initDependencies() async {
     () => AppUserCubit(),
   );
 
+  serviceLocator.registerFactory(() => InternetConnection());
+
   serviceLocator.registerFactory<ConnectionChecker>(
     () => ConnectionCheckerImpl(
-      InternetConnection.createInstance(),
+      serviceLocator(),
     ),
   );
 }
