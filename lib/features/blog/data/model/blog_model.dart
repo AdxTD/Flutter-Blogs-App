@@ -19,7 +19,7 @@ class BlogModel extends Blog {
       'content': content,
       'image_url': imageUrl,
       'topics': topics,
-      'update_at': updatedAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
   }
 

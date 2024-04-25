@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:blog_app/features/blog/data/model/BlogModel.dart';
+import 'package:blog_app/features/blog/data/model/blog_model.dart';
 
 abstract interface class BlogRemoteDataSource {
   Future<BlogModel> uploadBlog(BlogModel blogModel);
